@@ -1,0 +1,10 @@
+.page_wrapper {
+    color: rgb(50, 152, 14);
+    /* background-color: rgb(0, 0, 0); */
+    background-image: url('../images/bg_img.jpg');
+    height: 100vh;
+}
+
+input {
+    color: black !important
+}

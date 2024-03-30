@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Repeater</title>
+    <style>
+        .form-group {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <form method="post" id="mainForm">
+        <div id="sections">
+            <div class="item" id="item1">
+                <div class="form-group mb-3">
+                    <label for="phase1">Phase 1</label>
+                    <input type="text" class="form-control phase" name="item[0][phase1]" aria-describedby="title"
+                        placeholder="Enter">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="phase2">Phase 2</label>
+                    <input type="text" class="form-control phase" name="item[0][phase2]" aria-describedby="title"
+                        placeholder="Enter">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="phase3">Phase 3</label>
+                    <input type="text" class="form-control phase" name="item[0][phase3]" aria-describedby="title"
+                        placeholder="Enter">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="phase4">Phase 4</label>
+                    <input type="text" class="form-control phase" name="item[0][phase4]" aria-describedby="title"
+                        placeholder="Enter">
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn float-end" style="background:red;" onclick="submitForm()">Submit</button>
+        <button type="button" class="btn float-end" onclick="addSection()">Add Item</button>
+        <button type="button" class="btn float-end" onclick="removeSection()">Remove Item</button>
+    </form>
+
+    <script>
+        function addSection() {
+            var sections = document.getElementById('sections');
+            var lastItem = sections.lastElementChild.cloneNode(true);
+            var newItemId = "item" + (sections.childElementCount + 1);
+            lastItem.id = newItemId;
+            var inputs = lastItem.querySelectorAll('.phase');
+            inputs.forEach(function (input) {
+                input.value = '';
+                input.name = input.name.replace(/\[(\d+)\]/, function (match, index) {
+                    return '[' + (parseInt(index) + 1) + ']';
+                });
+            });
+            sections.appendChild(lastItem);
+        }
+
+        function removeSection() {
+            var sections = document.getElementById('sections');
+            if (sections.childElementCount > 1) {
+                sections.lastElementChild.remove();
+            }
+        }
+
+        function submitForm(e) {
+            var formData = new FormData(document.getElementById('mainForm'));
+            var data = {};
+            for (var pair of formData.entries()) {
+                data[pair[0]] = pair[1];
+            }
+            console.log(data);
+        }
+    </script>
+</body>
+
+</html>
